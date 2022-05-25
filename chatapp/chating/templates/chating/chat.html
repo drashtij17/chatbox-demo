@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <title>chat app </title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.css" integrity="sha512-0Nyh7Nf4sn+T48aTb6VFkhJe0FzzcOlqqZMahy/rhZ8Ii5Q9ZXG/1CbunUuEbfgxqsQfWXjnErKZosDSHVKQhQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+   
+
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card chat-app">
+                    
+                    <div id="plist" class="people-list">
+                        
+                        <div class="input-group">
+                            
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Search...">
+                        </div>
+                        
+                        <ul class="list-unstyled chat-list mt-2 mb-0">
+                           <!-- <h4><span class="badge bg-info text-wrap"  >{{request.user.username}}</span></h4> -->
+                            {% for user in users %}
+
+                            <li id="demo" class="clearfix active">
+                                
+                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
+                                <div class="about">
+                                    <div class="name">
+                                        <a href="{% url 'chat' username=user.username %}">{{user.username}}</a>
+                                    </div>
+                                    <p>
+                                    <span class="status"> 
+                                    <p></p>
+                                        {% if user.statuss == True %}
+                                        <h6  > <i  class="fa fa-circle online"></i> </h6> 
+                                        {% elif user.statuss == False %}
+                                        <h6 > <i  class="fa fa-circle offline"></i> </h6> 
+                                        {% else %}
+                                        {{user.last_login}}
+                                        {% endif %}
+                                        </span>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+
+                    <div class="chat">
+                        <div  class="chat-header clearfix">
+                            <div  class="row">
+                                <div class="col-lg-6">
+                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
+                                    </a>
+                                    <div class="chat-about">
+                                        <h6 class="m-b-0">Chat with {{user.username}}</h6>
+                                        <small class="st">
+                                            {% if user.statuss == True %}
+                                            <h4> <i id="change" class="fa fa-circle online"></i> </h4> 
+                                            {% else %}
+                                            <h4  > <i id="change" class="fa fa-circle offline"></i> </h4> 
+                                            {% endif %}
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 hidden-sm text-right">
+                                    <a href="javascript:void(0);" class="btn btn-outline-secondary"><i
+                                            class="fa fa-camera"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-outline-primary"><i
+                                            class="fa fa-image"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-outline-info"><i
+                                            class="fa fa-cogs"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-outline-warning"><i
+                                            class="fa fa-question"></i></a>
+                                            <a href="{% url 'logout' %}">Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div  class="chat-history ml-4">
+                            <ul  class="m-b-0">
+                                <div  class="col-sm-8 message-area">
+                                  
+                                        <table  class="table">
+                                            <tbody  id="chat-body">
+                                                {% for message in messages %}
+                                                {% if message.sender == request.user.username %}
+                                                <tr>
+                                                    <td>
+                                                        <p class="bg-success p-2 mt-2 mr-5 shadow-sm text-white  float-right rounded">
+                                                            {{message.message}}
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p><small  class="p-1 shadow-sm">{{message.timestamp|time:'H:i'}}</small>
+                                                        </p>    
+                                                    </td>
+                                                </tr>
+                                                {% else %}
+                                                <tr>
+                                                    <td>
+                                                        <p class="bg-primary p-2 mt-2 mr-5 shadow-sm text-white float-left rounded">
+                                                            {{message.message}}
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        <p><small class="p-1 shadow-sm">{{message.timestamp|time:'H:i'}}</small>
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                   {% comment %} 
+                                <li class="clearfix">
+                                    <div class="message-data text-right">
+                                        <span class="message-data-time"></span>
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                                    </div>
+                                    <div id='chat-body' class="message other-message float-right">
+                                        {{message.message}}
+                                        
+                                    </div>
+                                </li>
+
+                                {% else %}
+
+
+                                <li class="clearfix">
+                                    <div class="message-data">
+                                        <span class="message-data-time"></span>
+                                    </div>
+                                    <div class="message my-message"> {{message.message}}</div>
+                                </li>
+ {% endcomment %}
+
+                        <div class="chat-message clearfix">
+
+                            <div class="input-group mb-0">
+                                
+                                <input type="text" class="form-control" id="message_input" placeholder="Enter text here..." required>
+                               
+                                    <button type="submit" class="btn btn-success" id="chat-message-submit" onclick="check()"> Send </button>
+                                   <script>
+                                       function check()
+                                        {
+                                            if(document.getElementById("message_input").value = "")
+                                            {
+                                                alert("do write something")
+                                            }
+                                        }   
+                                   </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    
+    {{user.id|json_script:"json-username"}}
+    {{user.statuss|json_script:"user_status"}}
+    {{request.user.username|json_script:"json-message-username"}}
+
+<script>
+
+
+const id = JSON.parse(document.getElementById('json-username').textContent);
+const message_username = JSON.parse(document.getElementById('json-message-username').textContent);
+const status = JSON.parse(document.getElementById('user_status').textContent);
+let online = "Online"
+let offline = "Offline"
+const socket = new WebSocket(
+    'ws://'
+    + window.location.host
+    + '/ws/'
+    + id
+    + '/'
+);
+
+socket.onopen = function(e){
+    console.log("CONNECTION ESTABLISHED");                                                
+}
+
+socket.onclose = function(e){
+    console.log("CONNECTION LOST");
+      
+}
+
+socket.onerror = function(e){
+    console.log("ERROR OCCURED");
+}
+
+
+
+socket.onmessage = function(e){
+    
+    const data = JSON.parse(e.data);
+    console.log(data);
+    if(data.username == message_username && data.message=="online-connect"){
+        
+    }
+    else if (data.message == "offline"){
+        document.getElementById("change").className = "fa fa-circle offline";
+
+    }else if (data.message == "online"){
+        document.getElementById("change").className = "fa fa-circle online";
+
+    }
+    else if(data.username == message_username){
+        document.querySelector('#chat-body').innerHTML += `<tr>
+                                                                <td>
+                                                                <p class="bg-success p-2 mt-2 mr-5 shadow-sm text-white float-right rounded">${data.message}</p>
+                                                                </td>
+                                                            </tr>`
+    }else{
+        document.querySelector('#chat-body').innerHTML += `<tr>
+                                                                <td>
+                                                                <p class="bg-primary p-2 mt-2 mr-5 shadow-sm text-white float-left rounded">${data.message}</p>
+                                                                </td>
+                                                            </tr>`
+    }
+}
+
+
+
+document.querySelector('#chat-message-submit').onclick = function(e){
+    const message_input = document.querySelector('#message_input');
+    
+    const message = message_input.value;
+    
+    socket.send(JSON.stringify({
+        'message':message,
+        'username':message_username
+    }));
+
+    document.getElementById("message_input").value = "";
+
+    
+   
+}
+</script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+ <script>
+     
+$("#message_input").emojioneArea({
+    pickerPosition:"top",
+}) -->
+</script> 
+</body>
+</html>
