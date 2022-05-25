@@ -41,5 +41,8 @@ def chatPage(request,username):
     else:
         return redirect("/")
 
-
-
+def contact(request):
+    if request.session.has_key('username'):
+        Username = request.session['username']
+    else:
+        return redirect("/")

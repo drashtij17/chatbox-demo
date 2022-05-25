@@ -13,8 +13,9 @@ def register(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')      
-    
-        user = User.objects.create_user(username=username,email=email,password=password)
+        mobile = request.POST.get('mobile')
+        print(mobile)
+        user = User.objects.create_user(username=username,email=email,password=password,phoneNumber=mobile)
         user.set_password(password)
         user.save()
         if user:
@@ -39,6 +40,8 @@ def login(request):
             request.session['username'] = username
             auth.login(request,user)                  
             return redirect("index")
+        else:
+            return redirect('login')
     return render(request,'app/login.html')    
 
 def logout(request):

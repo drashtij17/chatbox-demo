@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'app',
     'chating',
     'channels',
+    "phonenumber_field",
 ]
 
 MIDDLEWARE = [
