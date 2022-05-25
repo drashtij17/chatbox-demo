@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
    path('<str:username>/',views.chatPage,name='chat'),
-   path('index',views.index,name='index')
+   path('index',views.index,name='index'),
+   path('contact',views.contact,name="contact"),
 
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

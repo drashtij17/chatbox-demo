@@ -21,13 +21,21 @@
                 <div class="contact-table-scroll">
                     <table class="table table-hover">
                         <tbody>
-                            {% for user in users %}
+                           
+                                <a href="{% url 'contact' %}">Add number</a>
+                             
+                            {% for s in show %}
+                           
                             <tr>
+                                
                                 <td><img src="{% static 'assets/dp.png' %}" alt="" class="profile-image rounded-circle">
                                 </td>
-                                <td><a href="{% url 'chat' username=user.username%}">{{user.username}}</a></td>
+                                <td><a href="{% url 'chat' username=s.name%}">{{s.name}}</a></td>
                             </tr>
                             {% endfor %}
+                            <!-- {% for user in users %}
+                           
+                            {% endfor %} -->
 
                             <!-- end -->
                         </tbody>

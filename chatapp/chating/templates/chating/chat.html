@@ -35,25 +35,25 @@
                         
                         <ul class="list-unstyled chat-list mt-2 mb-0">
                            <!-- <h4><span class="badge bg-info text-wrap"  >{{request.user.username}}</span></h4> -->
-                            {% for user in users %}
-
+                            {% for s in show %}
+                                
                             <li id="demo" class="clearfix active">
                                 
                                 <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
                                 <div class="about">
                                     <div class="name">
-                                        <a href="{% url 'chat' username=user.username %}">{{user.username}}</a>
+                                        <a href="{% url 'chat' username=s.name %}">{{s.name}}</a>
                                     </div>
                                     <p>
                                     <span class="status"> 
                                     <p></p>
-                                        {% if user.statuss == True %}
+                                        <!-- {% if user.statuss == True %}
                                         <h6  > <i  class="fa fa-circle online"></i> </h6> 
                                         {% elif user.statuss == False %}
                                         <h6 > <i  class="fa fa-circle offline"></i> </h6> 
                                         {% else %}
                                         {{user.last_login}}
-                                        {% endif %}
+                                        {% endif %} -->
                                         </span>
                                 </div>
                             </li>
@@ -89,7 +89,9 @@
                                             class="fa fa-cogs"></i></a>
                                     <a href="javascript:void(0);" class="btn btn-outline-warning"><i
                                             class="fa fa-question"></i></a>
+                                            <a href="{% url 'contact' %}">Add number</a>
                                             <a href="{% url 'logout' %}">Logout</a>
+
                                 </div>
                             </div>
                         </div>

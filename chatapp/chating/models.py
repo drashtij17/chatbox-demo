@@ -16,5 +16,5 @@ class ChatModel(models.Model):
 
 class Contact(models.Model):
     name = models.CharField(max_length=50, default=None)
-    mobile = PhoneNumberField(unique = True, null = True, blank = True)
+    mobile = PhoneNumberField( null = True, blank = True)
     loginuser = models.ForeignKey(User,on_delete=models.CASCADE)
