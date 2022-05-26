@@ -33,7 +33,7 @@ def chatPage(request,username):
         # print(getid,"KKKKKKKKK")
         user_obj = User.objects.get(username=username)
         
-        # print(user_obj,"?????????????????????????????????")
+        print(user_obj,"?????????????????????????????????")
 
         users = User.objects.exclude(username=request.user.username)
         print(request.user, "===", user_obj.id)
@@ -47,11 +47,16 @@ def chatPage(request,username):
         message_objs = ChatModel.objects.filter(thread_name=thread_name)
 
         savedname = Contact.objects.filter(loginuser=getid)
+       
+        showNotification = Contact.objects.filter(name = user_obj)
+        for s in showNotification:
+            print(s.is_read,"before")
+            s.is_read = True
+            s.save() 
+            print(s.is_read,"after")
+        
 
-        print(savedname,"^^^^^^^^^^^^^^^^^^^^^")
-        # print(message_objs,"???????????????")
-
-        return render(request, 'chating/chat.html', context={'user': user_obj, 'users': users, 'messages': message_objs,"show":savedname})
+        return render(request, 'chating/chat.html', context={'user': user_obj, 'users': users, 'messages': message_objs,"show":savedname,"notify":showNotification})
     else:
         return redirect("/")
 

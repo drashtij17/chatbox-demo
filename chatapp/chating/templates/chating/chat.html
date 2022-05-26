@@ -46,7 +46,11 @@
                                     </div>
                                     <p>
                                     <span class="status"> 
-                                    <p></p>
+                                    {% if s.is_read == False and s.name != user.username  %}
+                                    <h6 > 1 </h6> 
+                                    {% else %}
+                                    <h6 >  </h6> 
+                                    {% endif %}
                                         <!-- {% if user.statuss == True %}
                                         <h6  > <i  class="fa fa-circle online"></i> </h6> 
                                         {% elif user.statuss == False %}
@@ -181,6 +185,7 @@
 
     
     {{user.id|json_script:"json-username"}}
+    {{user.username|json_script:"json-name"}}
     {{user.statuss|json_script:"user_status"}}
     {{request.user.username|json_script:"json-message-username"}}
 
@@ -188,8 +193,11 @@
 
 
 const id = JSON.parse(document.getElementById('json-username').textContent);
+const name =  JSON.parse(document.getElementById('json-name').textContent);
 const message_username = JSON.parse(document.getElementById('json-message-username').textContent);
 const status = JSON.parse(document.getElementById('user_status').textContent);
+console.log(name,"&&7")
+
 let online = "Online"
 let offline = "Offline"
 const socket = new WebSocket(
@@ -219,6 +227,8 @@ socket.onmessage = function(e){
     
     const data = JSON.parse(e.data);
     console.log(data);
+    console.log( message_username)
+    
     if(data.username == message_username && data.message=="online-connect"){
         
     }

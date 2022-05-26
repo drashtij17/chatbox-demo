@@ -67,7 +67,7 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
                 'username': username,
             }
         )
-
+        
     async def chat_message(self, event):
         message = event['message']
         username = event['username']
@@ -98,3 +98,5 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
     def save_message(self, username, thread_name, message):
         ChatModel.objects.create(
             sender=username, message=message, thread_name=thread_name)
+
+    

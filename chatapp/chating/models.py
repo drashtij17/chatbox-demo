@@ -18,3 +18,4 @@ class Contact(models.Model):
     name = models.CharField(max_length=50, default=None)
     mobile = PhoneNumberField( null = True, blank = True)
     loginuser = models.ForeignKey(User,on_delete=models.CASCADE)
+    is_read = models.BooleanField(default=False,null=True,blank = True)
