@@ -32,9 +32,6 @@ def chatPage(request,username):
         getid = User.objects.get(username=Username).id
         # print(getid,"KKKKKKKKK")
         user_obj = User.objects.get(username=username)
-        
-        print(user_obj,"?????????????????????????????????")
-
         users = User.objects.exclude(username=request.user.username)
         print(request.user, "===", user_obj.id)
 
@@ -48,15 +45,7 @@ def chatPage(request,username):
 
         savedname = Contact.objects.filter(loginuser=getid)
        
-        showNotification = Contact.objects.filter(name = user_obj)
-        for s in showNotification:
-            print(s.is_read,"before")
-            s.is_read = True
-            s.save() 
-            print(s.is_read,"after")
-        
-
-        return render(request, 'chating/chat.html', context={'user': user_obj, 'users': users, 'messages': message_objs,"show":savedname,"notify":showNotification})
+        return render(request, 'chating/chat.html', context={'user': user_obj, 'users': users, 'messages': message_objs,"show":savedname})
     else:
         return redirect("/")
 
@@ -71,14 +60,14 @@ def contact(request):
             print(name,"#$%#$%#$")
             mobile = request.POST.get('contact')
            
-            verify = User.objects.filter(phoneNumber=mobile)
-            print(verify,"))")
-            if verify:
-                addnumber = Contact.objects.create(name=name,mobile=mobile,loginuser=getid)
-                addnumber.save()
-                return redirect("index")
-            else:
-                return HttpResponse("no")
+            # verify = User.objects.filter(phoneNumber=mobile)
+            # print(verify,"))")
+            # if verify:
+            addnumber = Contact.objects.create(name=name,mobile=mobile,loginuser=getid)
+            addnumber.save()
+            return redirect("index")
+            # else:
+            #     return HttpResponse("no")
             # savenumber = Contact.objects.create_user(name=name,mobile=mobile)
         return render(request,'chating/contact.html',{"Username":Username})
     else:

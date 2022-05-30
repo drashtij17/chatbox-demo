@@ -46,11 +46,7 @@
                                     </div>
                                     <p>
                                     <span class="status"> 
-                                    {% if s.is_read == False and s.name != user.username  %}
-                                    <h6 > 1 </h6> 
-                                    {% else %}
-                                    <h6 >  </h6> 
-                                    {% endif %}
+                                        <h6 > <i id="n"></i> </h6> 
                                         <!-- {% if user.statuss == True %}
                                         <h6  > <i  class="fa fa-circle online"></i> </h6> 
                                         {% elif user.statuss == False %}
@@ -188,6 +184,7 @@
     {{user.username|json_script:"json-name"}}
     {{user.statuss|json_script:"user_status"}}
     {{request.user.username|json_script:"json-message-username"}}
+    {{request.user.id|json_script:"reciveby"}}
 
 <script>
 
@@ -196,10 +193,8 @@ const id = JSON.parse(document.getElementById('json-username').textContent);
 const name =  JSON.parse(document.getElementById('json-name').textContent);
 const message_username = JSON.parse(document.getElementById('json-message-username').textContent);
 const status = JSON.parse(document.getElementById('user_status').textContent);
-console.log(name,"&&7")
+const reciveby =  JSON.parse(document.getElementById('reciveby').textContent);
 
-let online = "Online"
-let offline = "Offline"
 const socket = new WebSocket(
     'ws://'
     + window.location.host
@@ -227,8 +222,19 @@ socket.onmessage = function(e){
     
     const data = JSON.parse(e.data);
     console.log(data);
-    console.log( message_username)
-    
+    console.log(reciveby,"9999");
+    if(data.username == message_username && data.message == null)
+    {
+
+    }
+    else if(data.sendto == reciveby && data.message != null )
+    {
+        document.getElementById("n").innerHTML += `<p>dekh le</p>`;
+    }
+    else if(data.sendto != reciveby && data.message != null )
+    {
+        document.getElementById("n").innerHTML += `<p></p>`;
+    }
     if(data.username == message_username && data.message=="online-connect"){
         
     }
